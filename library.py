@@ -11,7 +11,7 @@ class Book:
 class Library:
     def __init__(self):
         self.BookDb = self.openlibrary()
-        print("Kütüphanemize Hoş geldiniz!")
+        print("Welcome to Library!")
         self.mainmenu()
     def __del__(self):
         print("Library is closed!")
@@ -24,7 +24,7 @@ class Library:
         3) Remove Book
         q) Quit
                 """)
-        user_input = input("Seciminiz:")
+        user_input = input("Your Choice:")
         if user_input == '1':
             self.listbooks()
         elif user_input == '2':
@@ -32,7 +32,7 @@ class Library:
         elif user_input == '3':
             self.removebook()
         elif user_input == 'q' or user_input == 'Q':
-            print("Tekrar görüşmek dileği ile...")
+            print("See ya L8R...")
             self.closelibrary()
 
         else:
@@ -40,14 +40,14 @@ class Library:
             self.mainmenu()
 
     def addbook(self):
-        book = Book(input("Kitap Adı:"), input("Kitabın Yazarı:"), input("Basım Yılı:"), input("Sayfa Sayısı:"))
+        book = Book(input("Book Name:"), input("Author:"), input("Release Date:"), input("Pages:"))
         wanted_string = "%s,%s,%s,%s\n" % (book.BookName,book.Author,book.ReleaseDate,book.Pages)
         self.BookDb.write(wanted_string)
         self.mainmenu()
     def listbooks(self):
         self.BookDb.seek(0)
         kitaplistesi = self.BookDb.read().splitlines()
-        print("Yazar | Kitap Adı")
+        print("Author | Book Name")
         for kitap in kitaplistesi:
             _ = str(kitap).split(',')
             book = Book(_[0],_[1],_[2],_[3])
@@ -59,7 +59,7 @@ class Library:
 
     def removebook(self):
         index_of_the_book = 0
-        book_name_to_remove = input("Silmek istediğiniz kitabın adı:")
+        book_name_to_remove = input("Book Name to Delete:")
         self.BookDb.seek(0)
         kitaplistesi = self.BookDb.read().splitlines()
         self.BookDb.truncate(0)
@@ -68,7 +68,7 @@ class Library:
             if index != -1:
                 list(kitaplistesi).remove(kitap)
                 index_of_the_book_to_be_deleted = index_of_the_book
-                print("Silinen Kitabın Sıra Numarası:",index_of_the_book_to_be_deleted)
+                print("The Index of Deleted Book:",index_of_the_book_to_be_deleted)
             else:
                 self.BookDb.write("%s\n" % kitap)
             index_of_the_book +=1
